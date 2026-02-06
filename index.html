@@ -6,6 +6,53 @@
 <title>HỆ THỐNG LẤY KEY</title>
 
 <style>
+/* ===== GROUP BOX ===== */
+.group-box{
+  margin-top:14px;
+  padding:14px;
+  border-radius:14px;
+  background:#000;
+  border:1px solid #00ff9c;
+  box-shadow:0 0 18px rgba(0,255,156,.35);
+  font-size:14px;
+  line-height:1.5;
+}
+
+.group-box span{
+  display:block;
+  font-size:13px;
+  opacity:.85;
+  margin-top:4px;
+}
+
+.group-actions{
+  display:flex;
+  gap:10px;
+  margin-top:12px;
+}
+
+.group-btn{
+  flex:1;
+  text-align:center;
+  padding:10px;
+  border-radius:10px;
+  font-weight:bold;
+  text-decoration:none;
+  color:#000;
+}
+
+.group-btn.chat{
+  background:linear-gradient(90deg,#00ff9c,#00cc88);
+}
+
+.group-btn.notify{
+  background:linear-gradient(90deg,#00c3ff,#3cc7ff);
+}
+
+.group-btn:active{
+  transform:scale(.96);
+}
+
 /* ===== NOTICE ===== */
 .notice-box{
   margin-top:14px;
@@ -209,6 +256,21 @@ button:active{
   Nhấn nút "🔑 Lấy Key".<br>
   Vượt link theo số bước quy định.<br>
   Key sẽ hiện ra tại trang kích hoạt.
+</div>
+
+<!-- THAM GIA NHÓM -->
+<div class="group-box">
+  <b>💬 Tham gia cộng đồng</b><br>
+  <span>Nhận thông báo key mới & hỗ trợ nhanh</span>
+
+  <div class="group-actions">
+    <a href="https://t.me/vhmodsgame" target="_blank" class="group-btn chat">
+      💬 Nhóm Chat
+    </a>
+    <a href="https://t.me/vhmodsgames" target="_blank" class="group-btn notify">
+      📢 Nhóm Thông Báo
+    </a>
+  </div>
 </div>
 
   <!-- DOWNLOAD 64BIT -->
