@@ -3,331 +3,318 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>HỆ THỐNG LẤY KEY</title>
+<title>Nhận key miễn phí</title>
 
 <style>
-/* ===== GROUP BOX ===== */
-.group-box{
-  margin-top:14px;
-  padding:14px;
-  border-radius:14px;
-  background:#000;
-  border:1px solid #00ff9c;
-  box-shadow:0 0 18px rgba(0,255,156,.35);
-  font-size:14px;
-  line-height:1.5;
+.telegram-box.group{
+    background:#eef3ff;
+    border:2px solid #4c6fff;
 }
 
-.group-box span{
-  display:block;
-  font-size:13px;
-  opacity:.85;
-  margin-top:4px;
+.telegram-box.group .tele-icon{
+    background:#4c6fff;
 }
 
-.group-actions{
-  display:flex;
-  gap:10px;
-  margin-top:12px;
+.telegram-box.group .tele-title,
+.telegram-box.group .tele-arrow{
+    color:#4c6fff;
 }
 
-.group-btn{
-  flex:1;
-  text-align:center;
-  padding:10px;
-  border-radius:10px;
-  font-weight:bold;
-  text-decoration:none;
-  color:#000;
+.telegram-box.group .tele-sub{
+    color:#5a6fb0;
 }
 
-.group-btn.chat{
-  background:linear-gradient(90deg,#00ff9c,#00cc88);
+.telegram-box{
+    background:#e8f5f3;
+    border:2px solid #2f6f68;
+    cursor:pointer;
 }
 
-.group-btn.notify{
-  background:linear-gradient(90deg,#00c3ff,#3cc7ff);
+.tele-left{
+    display:flex;
+    align-items:center;
+    gap:12px;
 }
 
-.group-btn:active{
-  transform:scale(.96);
+.tele-icon{
+    width:44px;
+    height:44px;
+    border-radius:50%;
+    background:#2f6f68;
+    color:#fff;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:20px;
 }
 
-/* ===== NOTICE ===== */
-.notice-box{
-  margin-top:14px;
-  padding:14px;
-  border-radius:14px;
-  background:#000;
-  border:1px solid #00ff9c;
-  box-shadow:0 0 18px rgba(0,255,156,.35);
-  font-size:14px;
-  line-height:1.5;
-  animation:fadeIn .4s ease;
+.tele-title{
+    font-weight:700;
+    color:#2f6f68;
 }
 
-@keyframes fadeIn{
-  from{opacity:0;transform:translateY(8px)}
-  to{opacity:1;transform:translateY(0)}
+.tele-sub{
+    font-size:13px;
+    color:#4b7f78;
+}
+
+.tele-arrow{
+    margin-left:auto;
+    font-size:26px;
+    color:#2f6f68;
+}
+
+.game-item{
+    cursor:pointer;
+    transition:0.2s;
+}
+
+.game-item.active{
+    background:#2f6f68;
+    color:#fff;
+}
+
+.game-item.active span{
+    color:#e0fffa;
 }
 
 *{
-  margin:0;
-  padding:0;
-  box-sizing:border-box;
-  font-family:Arial,Helvetica,sans-serif;
+    box-sizing: border-box;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
 }
-
 body{
-  background:radial-gradient(circle at top,#0e2a23,#050807);
-  color:#00ff9c;
-  min-height:100vh;
-  display:flex;
-  justify-content:center;
-  align-items:center;
+    margin:0;
+    background:#f4f2ee;
+    padding:15px;
 }
 
-.container{
-  width:94%;
-  max-width:420px;
-  background:#071512;
-  border:2px solid #00ff9c;
-  border-radius:18px;
-  padding:20px;
-  box-shadow:0 0 30px rgba(0,255,156,.45);
+/* Card */
+.card{
+    background:#fff;
+    border-radius:18px;
+    padding:16px;
+    margin-bottom:15px;
+    box-shadow:0 4px 10px rgba(0,0,0,.05);
 }
 
+/* Title */
+.badge{
+    display:inline-flex;
+    align-items:center;
+    gap:6px;
+    background:#e6f3f1;
+    color:#2c7f75;
+    padding:6px 12px;
+    border-radius:20px;
+    font-size:13px;
+    font-weight:600;
+}
 h1{
-  text-align:center;
-  margin-bottom:6px;
+    margin:10px 0 6px;
+    font-size:22px;
+}
+.sub{
+    color:#666;
+    font-size:14px;
 }
 
-.time{
-  text-align:center;
-  font-size:14px;
-  opacity:.85;
-  margin-bottom:14px;
+/* Search */
+.search{
+    margin:15px 0;
+}
+.search input{
+    width:100%;
+    padding:12px 14px;
+    border-radius:12px;
+    border:1px solid #ddd;
+    font-size:14px;
 }
 
-.select{
-  width:100%;
-  margin-bottom:10px;
-  padding:12px;
-  background:#000;
-  color:#00ff9c;
-  border:1px solid #00ff9c;
-  border-radius:8px;
+/* Game list */
+.game{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    background:#f8f7f4;
+    padding:12px 14px;
+    border-radius:14px;
+    margin-bottom:10px;
+    font-weight:600;
+}
+.game span{
+    color:#888;
+    font-weight:500;
+    font-size:13px;
 }
 
-button{
-  width:100%;
-  padding:14px;
-  background:#00ff9c;
-  color:#000;
-  font-size:17px;
-  border:none;
-  border-radius:12px;
-  cursor:pointer;
-  font-weight:bold;
+/* Buttons */
+.btn-main{
+    width:100%;
+    background:#2f6f68;
+    color:#fff;
+    border:none;
+    padding:14px;
+    border-radius:16px;
+    font-size:16px;
+    font-weight:700;
+    margin-top:10px;
+}
+.btn{
+    width:100%;
+    background:#fff;
+    border:2px solid #2f6f68;
+    color:#2f6f68;
+    padding:12px;
+    border-radius:16px;
+    font-size:15px;
+    font-weight:700;
+    margin-top:10px;
 }
 
-button:active{
-  transform:scale(.97);
+/* Info row */
+.info{
+    display:flex;
+    gap:8px;
+    margin-top:12px;
+    flex-wrap:wrap;
+}
+.info div{
+    background:#f0efec;
+    padding:6px 10px;
+    border-radius:10px;
+    font-size:13px;
 }
 
-/* ===== DOWNLOAD BOX ===== */
-.download-box{
-  margin-top:18px;
-  display:flex;
-  gap:14px;
-  padding:14px;
-  border-radius:16px;
-  background:#000;
-  border:1px solid #00ff9c;
-  box-shadow:0 0 20px rgba(0,255,156,.4);
+/* Guide */
+.guide h3{
+    margin-top:0;
 }
-
-.download-left img{
-  width:92px;
-  height:92px;
-  border-radius:12px;
-  object-fit:cover;
+.guide ol{
+    padding-left:18px;
+    color:#555;
 }
-
-.download-right{
-  flex:1;
-}
-
-.download-right h3{
-  margin-bottom:4px;
-}
-
-.download-right p{
-  font-size:13px;
-  opacity:.75;
-}
-
-.download-btn{
-  display:inline-block;
-  margin-top:8px;
-  padding:10px 14px;
-  border-radius:10px;
-  background:linear-gradient(90deg,#00ff9c,#00c3ff);
-  color:#000;
-  font-weight:bold;
-  text-decoration:none;
-}
-
-/* ===== POPUP ===== */
-.overlay{
-  position:fixed;
-  inset:0;
-  background:rgba(0,0,0,.65);
-  display:none;
-  justify-content:center;
-  align-items:center;
-  z-index:999;
-}
-
-.popup{
-  width:85%;
-  max-width:340px;
-  background:#2b2b2b;
-  border-radius:16px;
-  padding:hpx;
-  text-align:center;
-}
-
-.icon{
-  width:64px;
-  height:64px;
-  border-radius:50%;
-  border:3px solid #3cc7ff;
-  color:#3cc7ff;
-  font-size:34px;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  margin:auto;
-}
-
-.popup h2{
-  color:#fff;
-  margin:12px 0 8px;
-}
-
-.popup p{
-  color:#ccc;
-  font-size:14px;
-}
-
-.loader{
-  width:36px;
-  height:36px;
-  border:4px solid #444;
-  border-top:4px solid #3cc7ff;
-  border-radius:50%;
-  margin:18px auto 0;
-  animation:spin .8s linear infinite;
-}
-
-@keyframes spin{
-  to{transform:rotate(360deg);}
+.telegram{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    margin-top:10px;
+    color:#2f6f68;
+    font-weight:600;
 }
 </style>
 </head>
 
 <body>
 
-<div class="container">
-  <h1>HỆ THỐNG LẤY KEY</h1>
-  <div class="time" id="time"></div>
-
-  <select class="select"><option>Liên Quân 64Bit & 32Bit</option></select>
-  <select class="select"><option>Liên Quân Mobile</option></select>
-  <select class="select"><option>1 Thiết bị</option></select>
-  <select class="select"><option>Reset 00:00 Mỗi Ngày</option></select>
-
-  <button id="getKey">🔑 Lấy Key</button>
-
-<!-- THÔNG BÁO -->
-<div class="notice-box" id="noticeBox">
-  <b>📌 Hướng dẫn nhanh</b><br>
-  Nhấn nút "🔑 Lấy Key".<br>
-  Vượt link theo số bước quy định.<br>
-  Key sẽ hiện ra tại trang kích hoạt.
-</div>
-
-<!-- THAM GIA NHÓM -->
-<div class="group-box">
-  <b>💬 Tham gia cộng đồng</b><br>
-  <span>Nhận thông báo key mới & hỗ trợ nhanh</span>
-
-  <div class="group-actions">
-    <a href="https://t.me/vhmodsgame" target="_blank" class="group-btn chat">
-      💬 Nhóm Chat
-    </a>
-    <a href="https://t.me/vhmodsgames" target="_blank" class="group-btn notify">
-      📢 Nhóm Thông Báo
-    </a>
-  </div>
-</div>
-
-  <!-- DOWNLOAD 64BIT -->
-  <div class="download-box">
-    <div class="download-left">
-      <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgAPePewpVJl4NLN8rxm8bzc3j1g8WOEl9Pitl0vLoF9f4tK6c_CKEH2LWO94LSmNkC7fHECGZXydiMEULlCeJWyV2OnxRJvwZ2lV56zgUmw2eVM773bucA0_30ZHJDeobZl7XQkIREC40Sg_hrMyK1ewxZ-Rxv5A7AGC48U8PuKfM62GMaCo6ZkOwJuuY/s225/1000026524.jpg">
-    </div>
-    <div class="download-right">
-      <h3>Liên Quân 64Bit</h3>
-      <p>Nhấn nút bên dưới để tải file</p>
-      <a class="download-btn" href="https://link4m.com/tyCZ9" target="_blank">⬇️ TẢI NGAY</a>
-    </div>
-  </div>
-
-  <!-- DOWNLOAD 32BIT -->
-  <div class="download-box">
-    <div class="download-left">
-      <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgAPePewpVJl4NLN8rxm8bzc3j1g8WOEl9Pitl0vLoF9f4tK6c_CKEH2LWO94LSmNkC7fHECGZXydiMEULlCeJWyV2OnxRJvwZ2lV56zgUmw2eVM773bucA0_30ZHJDeobZl7XQkIREC40Sg_hrMyK1ewxZ-Rxv5A7AGC48U8PuKfM62GMaCo6ZkOwJuuY/s225/1000026524.jpg">
-    </div>
-    <div class="download-right">
-      <h3>Liên Quân 32Bit</h3>
-      <p>Nhấn nút bên dưới để tải file</p>
-      <a class="download-btn" href="https://link4m.com/Kv8s4" target="_blank">⬇️ TẢI NGAY</a>
-    </div>
-  </div>
-
-</div>
-
-<!-- POPUP -->
-<div class="overlay" id="overlay">
-  <div class="popup">
-    <div class="icon">i</div>
-    <h2>Đang xử lý...</h2>
-    <p>Hệ thống đang tạo key và sẽ chuyển hướng sau vài giây, vui lòng chờ.</p>
-    <div class="loader"></div>
-  </div>
-</div>
-
 <script>
-// TIME REAL
-function updateTime(){
-  const n=new Date();
-  document.getElementById("time").innerText=
-  `(${String(n.getHours()).padStart(2,'0')}:${String(n.getMinutes()).padStart(2,'0')}:${String(n.getSeconds()).padStart(2,'0')}
-  ${String(n.getDate()).padStart(2,'0')}/${String(n.getMonth()+1).padStart(2,'0')}/${n.getFullYear()})`;
+function openTelegramAdmin(){
+    window.open("https://t.me/vanhiep20000", "_blank");
 }
-updateTime();
-setInterval(updateTime,1000);
 
-// GET KEY
-document.getElementById("getKey").onclick=()=>{
-  document.getElementById("overlay").style.display="flex";
-  setTimeout(()=>{
-    window.location.href="https://vuotnhanh.com/Utl5";
-  },10000);
-};
+function openTelegramGroup(){
+    window.open("https://t.me/vhmodsgames", "_blank");
+}
 </script>
 
+<div class="card">
+    <div class="badge">⚡ KEY MIỄN PHÍ</div>
+    <h1>Nhận key miễn phí</h1>
+    <div class="sub"></div>
+
+    <div class="game game-item">LIÊN QUÂN<span>— LIENQUAN</span></div>
+
+    <button class="btn-main" onclick="goFreeKey()">Nhận key miễn phí</button>
+    <button class="btn" onclick="goIB()">Liên Quân 64Bit</button>
+    <button class="btn" onclick="goAuto()">Liên Quân 32Bit</button>
+
+    <div class="info">
+        <div>Số lần vượt link: 3 lần</div>
+        <div>Thời hạn key: 1 ngày</div>
+        <div>Thiết bị: 1</div>
+    </div>
+</div>
+
+<div class="card guide">
+    <h3>Hướng dẫn nhanh</h3>
+    <ol>
+        <li>Chọn đúng game bạn muốn nhận key.</li>
+        <li>Nhấn nút <b>"Nhận key miễn phí"</b>.</li>
+        <li>Vượt link theo số bước quy định.</li>
+        <li>Key sẽ hiện ra tại trang kích hoạt.</li>
+    </ol>
+
+<div class="card telegram-box" onclick="openTelegram()">
+    <div class="tele-left">
+        <div class="tele-icon">✈️</div>
+        <div>
+            <div class="tele-title">GROUP CHAT</div>
+            <div class="tele-sub">Chat Chung</div>
+        </div>
+    </div>
+    <div class="tele-arrow">›</div>
+</div>
+
+<div class="card telegram-box" onclick="openTelegramAdmin()">
+    <div class="tele-left">
+        <div class="tele-icon">👤</div>
+        <div>
+            <div class="tele-title">Telegram Admin</div>
+            <div class="tele-sub">Liên hệ trực tiếp admin hỗ trợ</div>
+        </div>
+    </div>
+    <div class="tele-arrow">›</div>
+</div>
+
+<div class="card telegram-box group" onclick="openTelegramGroup()">
+    <div class="tele-left">
+        <div class="tele-icon">👥</div>
+        <div>
+            <div class="tele-title">Telegram Group</div>
+            <div class="tele-sub">Nhóm Thông Báo </div>
+        </div>
+    </div>
+    <div class="tele-arrow">›</div>
+</div>
+
+    <div class="telegram">
+        📩 Hỗ trợ nhanh qua Telegram
+    </div>
+    <div class="sub">
+        Nếu gặp lỗi, hãy chụp màn hình và gửi về admin để được xử lý nhanh.
+    </div>
+</div>
+
 </body>
+
+<script>
+function openTelegram(){
+    window.open("https://t.me/vhmodsgame", "_blank");
+}
+</script>
+
+<script>
+const games = document.querySelectorAll('.game-item');
+
+games.forEach(game => {
+    game.addEventListener('click', () => {
+        games.forEach(g => g.classList.remove('active'));
+        game.classList.add('active');
+    });
+});
+</script>
+
+<script>
+function goFreeKey(){
+    window.location.href = "https://vuotnhanh.com/NqQG";
+}
+
+function goIB(){
+    window.location.href = "https://link4m.com/go/tyCZ9";
+}
+
+function goAuto(){
+    window.location.href = "https://link4m.com/go/Kv8s4";
+}
+</script>
+
 </html>
