@@ -3,164 +3,200 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Get Key Free - locneem113</title>
+    <title>VH MODS - Get Key & Download</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         :root {
             --primary: #2d6a61;
             --bg: #f5f7fa;
-            --text: #333;
             --white: #ffffff;
             --tele-color: #2481cc;
+            --dark-auth: #0a0a0a;
+            --success: #00ff88;
+            --accent: #e6f2f0;
         }
 
-        body {
-            background-color: var(--bg);
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            margin: 0;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            padding: 20px;
-        }
+        body, html { margin: 0; padding: 0; font-family: 'Segoe UI', sans-serif; height: 100%; width: 100%; overflow: hidden; background-color: var(--bg); }
 
+        /* --- TOAST NOTIFICATION --- */
+        #toast { position: fixed; top: 20px; right: -300px; background: var(--white); border-left: 5px solid var(--primary); padding: 15px 25px; border-radius: 8px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); display: flex; align-items: center; gap: 10px; z-index: 100000; transition: 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+        #toast.show { right: 20px; }
+
+        /* --- LÌ XÌ RƠI --- */
+        #lixiBox { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 99999; overflow: hidden; }
+        .lixi { position: absolute; top: -50px; width: 16px; height: 26px; background-color: #d40000; border: 1px solid #ffd700; border-radius: 4px; display: flex; justify-content: center; align-items: center; color: #ffd700; font-weight: bold; font-size: 9px; animation: fall linear forwards; }
+        .lixi::after { content: '福'; } 
+        @keyframes fall { 0% { transform: translateY(0) rotate(0deg); opacity: 1; } 100% { transform: translateY(110vh) rotate(720deg); opacity: 0.2; } }
+
+        /* --- AUTH SCREEN --- */
+        #auth-screen { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: var(--dark-auth); display: flex; justify-content: center; align-items: center; z-index: 10000; transition: opacity 0.5s ease; }
+        .auth-card { background: #121212; border-radius: 30px; padding: 40px 20px; width: 85%; max-width: 350px; text-align: center; border: 1px solid #333; }
+        .circle-loader { width: 50px; height: 50px; border: 4px solid #1a1a1a; border-top: 4px solid var(--success); border-radius: 50%; margin: 0 auto 20px; animation: spin 1s linear infinite; }
+        @keyframes spin { 100% { transform: rotate(360deg); } }
+
+        /* --- MAIN CONTENT --- */
+        #main-content { display: none; height: 100vh; overflow-y: auto; flex-direction: column; align-items: center; padding: 20px; position: relative; z-index: 10; }
         .container { width: 100%; max-width: 450px; }
+        .card { background: var(--white); border-radius: 25px; padding: 22px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); margin-bottom: 20px; text-align: center; border: 1px solid rgba(0,0,0,0.02); }
+        
+        .section-title { font-size: 18px; font-weight: bold; margin-bottom: 15px; display: flex; align-items: center; justify-content: center; gap: 8px; color: #333; }
+        .clock-container { background: var(--accent); color: var(--primary); padding: 6px 12px; border-radius: 10px; font-weight: bold; font-size: 13px; margin-bottom: 15px; display: inline-block; }
 
-        .card {
-            background: var(--white);
-            border-radius: 25px;
-            padding: 25px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
-            margin-bottom: 20px;
-        }
+        .tag { background: #f8f9fa; border: 1px solid #eee; padding: 8px 12px; border-radius: 15px; display: inline-block; margin: 4px; cursor: pointer; font-size: 12px; font-weight: 600; transition: 0.3s; }
+        .tag.active { background-color: var(--primary); color: white; border-color: var(--primary); }
 
-        .badge {
-            background: #e6f2f0;
-            color: var(--primary);
-            padding: 5px 15px;
-            border-radius: 20px;
-            font-size: 12px;
-            font-weight: bold;
-            display: inline-flex;
-            align-items: center; gap: 5px; margin-bottom: 15px;
-        }
-
-        h1 { font-size: 28px; margin: 0 0 10px 0; color: var(--text); }
-        .sub-title { color: #666; font-size: 14px; margin-bottom: 20px; }
-
-        /* Game List */
-        .game-tags { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 25px; }
-        .tag {
-            background: var(--white); border: 1px solid #eee; padding: 10px 15px;
-            border-radius: 20px; font-size: 13px; font-weight: 600; cursor: pointer; transition: 0.3s;
-        }
-        .tag.active { background-color: var(--primary); color: white; border-color: var(--primary); transform: scale(1.05); }
-        .tag span { color: #999; font-weight: normal; }
-        .tag.active span { color: rgba(255, 255, 255, 0.8); }
-
-        /* Buttons */
-        .btn {
-            display: block; width: 100%; padding: 15px; border-radius: 25px;
-            text-align: center; text-decoration: none; font-weight: bold;
-            margin-bottom: 10px; box-sizing: border-box; font-size: 16px; border: none; cursor: pointer;
-        }
+        .btn-group { display: flex; flex-direction: column; gap: 10px; margin-top: 15px; }
+        .btn { display: flex; align-items: center; justify-content: center; gap: 8px; width: 100%; padding: 14px; border-radius: 20px; text-decoration: none; font-weight: bold; font-size: 15px; border: none; cursor: pointer; transition: 0.3s; box-sizing: border-box; }
         .btn-main { background: var(--primary); color: white; }
-        .btn-outline { background: white; color: var(--primary); border: 1px solid var(--primary); }
+        .btn-outline { background: white; color: var(--primary); border: 2px solid var(--primary); }
 
-        /* Info Labels */
-        .info-row { display: flex; justify-content: space-between; gap: 5px; margin-top: 20px; }
-        .label { background: #f0f0f0; padding: 5px 10px; border-radius: 8px; font-size: 11px; color: #444; }
+        /* --- KHUNG TẢI GAME --- */
+        .download-grid { display: grid; grid-template-columns: 1fr; gap: 10px; text-align: left; }
+        .dl-item { background: #f9f9f9; padding: 12px 15px; border-radius: 15px; display: flex; align-items: center; justify-content: space-between; text-decoration: none; color: #444; border: 1px solid #eee; transition: 0.3s; }
+        .dl-item:hover { background: var(--accent); border-color: var(--primary); transform: translateX(5px); }
+        .dl-info { display: flex; align-items: center; gap: 10px; font-size: 13px; font-weight: 600; }
+        .dl-info i.game-icon { color: var(--primary); font-size: 16px; }
+        
+        /* Badge mới với icon download thay dấu ngoặc */
+        .dl-badge { font-size: 10px; background: #eee; padding: 3px 8px; border-radius: 6px; color: #555; display: flex; align-items: center; gap: 4px; border: 1px solid #ddd; }
+        .dl-badge i { font-size: 9px; color: var(--primary); }
 
-        /* Guide Card */
-        .guide-card { background: var(--white); border-radius: 25px; padding: 25px; width: 100%; box-sizing: border-box; margin-bottom: 20px;}
-        .guide-list { padding-left: 20px; color: #555; font-size: 14px; line-height: 2; }
-
-        /* Telegram Section */
-        .tele-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 10px; }
-        .tele-box {
-            background: #eef7ff;
-            border: 1px solid #cce5ff;
-            padding: 15px 10px;
-            border-radius: 15px;
-            text-align: center;
-            text-decoration: none;
-            color: var(--tele-color);
-            font-size: 13px;
-            font-weight: bold;
-            transition: 0.3s;
-        }
-        .tele-box i { font-size: 20px; margin-bottom: 5px; display: block; }
-        .tele-box:hover { background: var(--tele-color); color: white; transform: translateY(-3px); }
-
-        footer { margin: 30px 0; font-size: 13px; color: #999; text-align: center; }
+        .tele-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+        .tele-box { background: #eef7ff; border: 1px solid #cce5ff; padding: 12px; border-radius: 15px; text-align: center; text-decoration: none; color: var(--tele-color); font-size: 12px; font-weight: bold; display: flex; align-items: center; justify-content: center; gap: 5px; }
     </style>
 </head>
-<body>
+<body onclick="playMusic()">
 
-<div class="container">
-    <div class="card">
-        <div class="badge"><i class="fas fa-bolt"></i> KEY MIỄN PHÍ</div>
-        <h1>Nhận key miễn phí</h1>
-        <p class="sub-title">Chọn game và hoàn thành nhiệm vụ để lấy Key.</p>
+    <div id="toast"><i class="fas fa-check-circle"></i> <span id="toast-msg"></span></div>
+    <div id="lixiBox"></div>
 
-        <div class="game-tags">
-            <div class="tag" onclick="selectGame(this, '8ball')">8 BALL POOL <span>— 8BALLPOOL</span></div>
-            <div class="tag" onclick="selectGame(this, 'fc')">FC MOBILE <span>— FCMOBILE</span></div>
-            <div class="tag" onclick="selectGame(this, 'lq')">LIÊN QUÂN <span>— LIENQUAN</span></div>
-        </div>
-
-        <button class="btn btn-main" onclick="redirectToTask()">Nhận key miễn phí</button>
-        <a href="https://t.me/VanHiep20000" class="btn btn-outline" target="_blank">Mua key (IB Admin)</a>
-
-        <div class="info-row">
-            <div class="label">Số lần vượt link: 3 lần</div>
-            <div class="label">Thời hạn key: 24h</div>
-            <div class="label">Thiết bị: 1</div>
+    <div id="auth-screen">
+        <div class="auth-card">
+            <div class="circle-loader"></div>
+            <h2 style="color: white; font-size: 18px;">Good Boy</h2>
+            <button class="btn btn-main" style="background:white; color:black; margin-top:20px;" onclick="enterMain()">TRUY CẬP</button>
         </div>
     </div>
 
-    <div class="guide-card">
-        <h2 style="font-size: 20px; margin-top: 0;">Hướng dẫn & Cộng đồng</h2>
-        <ol class="guide-list">
-            <li>Chọn Game -> Bấm Nhận Key.</li>
-            <li>Vượt link để lấy mã kích hoạt.</li>
-        </ol>
-        
-        <div class="tele-grid">
-            <a href="https://t.me/vhmodsgames" class="tele-box" target="_blank">
-                <i class="fab fa-telegram"></i> Nhóm Thông Báo
-            </a>
-            <a href="https://t.me/vhmodsgamechat" class="tele-box" target="_blank">
-                <i class="fab fa-telegram"></i> Nhóm Chat Chung
-            </a>
+    <audio id="bgMusic" loop><source src="https://files.catbox.moe/ymik66.mp3" type="audio/mpeg"></audio>
+
+    <div id="main-content">
+        <div class="container">
+            <div class="card">
+                <div class="section-title"><i class="fas fa-key"></i> NHẬN KEY MIỄN PHÍ</div>
+                <div class="clock-container" id="realTime">00:00:00</div>
+                <div id="gameList">
+                    <div class="tag" onclick="selectGame(this, '8 BALL POOL')">8 BALL POOL</div>
+                    <div class="tag" onclick="selectGame(this, 'FC MOBILE')">FC MOBILE</div>
+                    <div class="tag" onclick="selectGame(this, 'LIÊN QUÂN')">LIÊN QUÂN</div>
+                </div>
+                <div class="btn-group">
+                    <button class="btn btn-main" onclick="redirectToTask()"><i class="fas fa-bolt"></i> LẤY KEY NGAY</button>
+                    <a href="https://t.me/VanHiep20000" class="btn btn-outline" target="_blank"><i class="fas fa-shopping-cart"></i> MUA KEY ADMIN</a>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="section-title"><i class="fas fa-download"></i> TẢI GAME MOD MENU KISS</div>
+                <div class="download-grid">
+                    <a href="https://vuotnhanh.com/XLpK" class="dl-item" target="_blank">
+                        <div class="dl-info">
+                            <i class="fas fa-gamepad game-icon"></i> FC MOBILE 
+                            <span class="dl-badge"><i class="fas fa-download"></i> QUỐC TẾ</span>
+                        </div>
+                        <i class="fas fa-chevron-right" style="font-size: 12px; color: #ccc;"></i>
+                    </a>
+                    <a href="https://vuotnhanh.com/AFuP" class="dl-item" target="_blank">
+                        <div class="dl-info">
+                            <i class="fas fa-gamepad game-icon"></i> FC MOBILE 
+                            <span class="dl-badge"><i class="fas fa-download"></i> VIỆT NAM</span>
+                        </div>
+                        <i class="fas fa-chevron-right" style="font-size: 12px; color: #ccc;"></i>
+                    </a>
+                    <a href="https://vuotnhanh.com/7UsH" class="dl-item" target="_blank">
+                        <div class="dl-info">
+                            <i class="fas fa-shield-alt game-icon"></i> LIÊN QUÂN 
+                            <span class="dl-badge"><i class="fas fa-download"></i> 64 BIT</span>
+                        </div>
+                        <i class="fas fa-chevron-right" style="font-size: 12px; color: #ccc;"></i>
+                    </a>
+                    <a href="https://vuotnhanh.com/q8gd" class="dl-item" target="_blank">
+                        <div class="dl-info">
+                            <i class="fas fa-shield-alt game-icon"></i> LIÊN QUÂN 
+                            <span class="dl-badge"><i class="fas fa-download"></i> 32 BIT</span>
+                        </div>
+                        <i class="fas fa-chevron-right" style="font-size: 12px; color: #ccc;"></i>
+                    </a>
+                    <a href="https://vuotnhanh.com/oxVm" class="dl-item" target="_blank">
+                        <div class="dl-info">
+                            <i class="fas fa-circle game-icon"></i> 8 BALL POOL 
+                            <span class="dl-badge"><i class="fas fa-download"></i> VIP</span>
+                        </div>
+                        <i class="fas fa-chevron-right" style="font-size: 12px; color: #ccc;"></i>
+                    </a>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="tele-grid">
+                    <a href="https://t.me/vhmodsgames" class="tele-box" target="_blank"><i class="fab fa-telegram"></i> Thông Báo</a>
+                    <a href="https://t.me/vhmodsgamechat" class="tele-box" target="_blank"><i class="fab fa-telegram"></i> Nhóm Chat</a>
+                </div>
+            </div>
+            <footer style="color: #999; font-size: 11px; text-align: center; margin-bottom: 20px;">Powered by <strong>VanHiep</strong></footer>
         </div>
     </div>
-</div>
 
-<footer>Powered by <strong>Light</strong></footer>
-
-<script>
-    let currentSelected = "";
-    const gameLinks = {
-        "fc": "https://vuotnhanh.com/Y6K4",
-        "lq": "https://vuotnhanh.com/eurg",
-        "8ball": "https://link4m.com/go/ZK8vJff"
-    };
-
-    function selectGame(element, gameId) {
-        document.querySelectorAll('.tag').forEach(tag => tag.classList.remove('active'));
-        element.classList.add('active');
-        currentSelected = gameId;
-    }
-
-    function redirectToTask() {
-        if (!currentSelected) {
-            alert("Vui lòng chọn 1 Game!");
-            return;
+    <script>
+        function showToast(msg) {
+            const t = document.getElementById('toast');
+            document.getElementById('toast-msg').innerText = msg;
+            t.classList.add('show');
+            setTimeout(() => t.classList.remove('show'), 3000);
         }
-        window.location.href = gameLinks[currentSelected];
-    }
-</script>
 
+        function updateTime() {
+            const now = new Date();
+            const timeStr = now.getHours().toString().padStart(2,'0') + ":" + now.getMinutes().toString().padStart(2,'0') + ":" + now.getSeconds().toString().padStart(2,'0') + " - " + now.getDate().toString().padStart(2,'0') + "/" + (now.getMonth()+1).toString().padStart(2,'0') + "/" + now.getFullYear();
+            document.getElementById('realTime').innerHTML = `<i class="fas fa-clock"></i> ${timeStr}`;
+        }
+        setInterval(updateTime, 1000);
+
+        function createLixi() {
+            const c = document.getElementById('lixiBox');
+            const l = document.createElement('div');
+            l.className = 'lixi';
+            l.style.left = Math.random() * 98 + "vw";
+            l.style.animationDuration = (Math.random() * 3 + 4) + "s";
+            c.appendChild(l);
+            setTimeout(() => l.remove(), 6000);
+        }
+        setInterval(createLixi, 500);
+
+        const audio = document.getElementById("bgMusic");
+        function enterMain() {
+            document.getElementById('auth-screen').style.opacity = '0';
+            setTimeout(() => {
+                document.getElementById('auth-screen').style.display = 'none';
+                document.getElementById('main-content').style.display = 'flex';
+                audio.play().catch(() => {});
+            }, 500);
+        }
+
+        let currentSelected = "";
+        const gameLinks = { "FC MOBILE": "https://vuotnhanh.com/Y6K4", "LIÊN QUÂN": "https://vuotnhanh.com/eurg", "8 BALL POOL": "https://link4m.com/go/ZK8vJff" };
+
+        function selectGame(el, name) {
+            document.querySelectorAll('.tag').forEach(t => t.classList.remove('active'));
+            el.classList.add('active');
+            currentSelected = name;
+            showToast("Đã chọn " + name);
+        }
+
+        function redirectToTask() {
+            if (!currentSelected) { showToast("Vui lòng chọn Game!"); return; }
+            window.location.href = gameLinks[currentSelected];
+        }
+    </script>
 </body>
 </html>
