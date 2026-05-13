@@ -16,75 +16,481 @@
             background-image: radial-gradient(circle at 50% 50%, #101030 0%, #050510 100%);
         }
         
-        #lockScreen { text-align: center; margin-top: 150px; padding: 20px; }
-        #lockScreen h1 {
-            color: #ff0050; font-size: 28px; text-shadow: 0 0 15px #ff0050;
-            text-transform: uppercase; margin-bottom: 30px;
+        #lockScreen {
+            display: flex; align-items: center; justify-content: center;
+            min-height: 100vh; margin: -15px; padding: 20px;
+            position: relative; overflow: hidden;
         }
-        .lock-input {
-            background: #000; border: 1px solid #ff0050; color: #fff;
-            padding: 12px; border-radius: 12px; outline: none; width: 200px; text-align: center;
+        #lockScreen::before {
+            content: ''; position: fixed; inset: 0;
+            background-image:
+                linear-gradient(rgba(0,242,255,0.04) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0,242,255,0.04) 1px, transparent 1px);
+            background-size: 40px 40px;
+            animation: gridMove 8s linear infinite;
+            pointer-events: none; z-index: 0;
+        }
+        @keyframes gridMove {
+            0%   { background-position: 0 0, 0 0; }
+            100% { background-position: 0 40px, 40px 0; }
+        }
+        #lockScreen::after {
+            content: ''; position: fixed; width: 500px; height: 500px;
+            background: radial-gradient(circle, rgba(112,0,255,0.13) 0%, transparent 70%);
+            top: -150px; right: -150px;
+            animation: orbFloat 7s ease-in-out infinite alternate;
+            pointer-events: none; z-index: 0;
+        }
+        @keyframes orbFloat {
+            0%   { transform: translate(0,0) scale(1); }
+            100% { transform: translate(-30px,40px) scale(1.2); }
+        }
+        .login-card {
+            position: relative; z-index: 10;
+            width: 100%; max-width: 380px;
+            background: rgba(6,8,22,0.96);
+            border: 1px solid rgba(0,242,255,0.22);
+            border-radius: 24px; padding: 40px 30px 32px;
+            box-shadow: 0 30px 60px rgba(0,0,0,0.85), 0 0 0 1px rgba(0,242,255,0.06);
+            overflow: hidden;
+            animation: cardDrop 0.55s cubic-bezier(0.22,1,0.36,1) both;
+        }
+        @keyframes cardDrop {
+            from { opacity:0; transform: translate3d(0,28px,0) scale(0.93); }
+            to   { opacity:1; transform: translate3d(0,0,0) scale(1); }
+        }
+        .login-card::before {
+            content: ''; position: absolute; top:0; left:0;
+            width:100%; height:2px;
+            background: linear-gradient(90deg, transparent, #00f2ff, transparent);
+            animation: scanX 2.8s linear infinite; will-change: transform;
+        }
+        @keyframes scanX {
+            0%   { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+        .lc-corner { position:absolute; width:14px; height:14px; pointer-events:none; z-index:2; }
+        .lc-tl { top:0; left:0;  border-top:2px solid #00f2ff; border-left:2px solid #00f2ff; }
+        .lc-tr { top:0; right:0; border-top:2px solid #00f2ff; border-right:2px solid #00f2ff; }
+        .lc-bl { bottom:0; left:0;  border-bottom:2px solid #00f2ff; border-left:2px solid #00f2ff; }
+        .lc-br { bottom:0; right:0; border-bottom:2px solid #00f2ff; border-right:2px solid #00f2ff; }
+        .login-avatar {
+            width:68px; height:68px; border-radius:50%;
+            background: linear-gradient(135deg, rgba(0,242,255,0.12), rgba(112,0,255,0.12));
+            border: 2px solid rgba(0,242,255,0.3);
+            display:flex; align-items:center; justify-content:center;
+            margin: 0 auto 16px; font-size:28px;
+            animation: avatarGlow 2.5s ease-in-out infinite;
+        }
+        @keyframes avatarGlow {
+            0%,100% { box-shadow: 0 0 18px rgba(0,242,255,0.2); }
+            50%      { box-shadow: 0 0 32px rgba(0,242,255,0.5); }
+        }
+        .login-eyebrow {
+            font-size:8px; color:rgba(0,242,255,0.55); letter-spacing:5px;
+            text-align:center; margin-bottom:5px; text-transform:uppercase;
+        }
+        .login-title {
+            font-size:20px; font-weight:900; text-align:center; color:#fff;
+            text-shadow:0 0 20px rgba(0,242,255,0.3); margin:0 0 4px;
+            text-transform:uppercase; letter-spacing:3px;
+        }
+        .login-title span { color:#00f2ff; }
+        .login-sub {
+            text-align:center; font-size:11px; color:rgba(255,255,255,0.28);
+            margin-bottom:26px; letter-spacing:1px;
+        }
+        .input-group { margin-bottom:12px; }
+        .input-label {
+            font-size:8px; color:rgba(0,242,255,0.5); letter-spacing:2.5px;
+            margin-bottom:5px; display:block; text-transform:uppercase;
+        }
+        .input-wrap { position:relative; display:flex; align-items:center; }
+        .input-icon { position:absolute; left:13px; font-size:13px; opacity:0.45; pointer-events:none; }
+        .lk-input {
+            width:100%; background:rgba(0,0,0,0.6);
+            border:1px solid rgba(0,242,255,0.18); color:#fff;
+            padding:11px 13px 11px 38px; border-radius:11px; outline:none;
+            font-size:14px; font-weight:600; letter-spacing:1px;
+            transition:border-color 0.3s, box-shadow 0.3s; box-sizing:border-box;
+        }
+        .lk-input:focus {
+            border-color:#00f2ff;
+            box-shadow: 0 0 0 3px rgba(0,242,255,0.1), 0 0 14px rgba(0,242,255,0.14);
+        }
+        .lk-input::placeholder { color:rgba(255,255,255,0.18); }
+        .btn-login {
+            width:100%; padding:13px;
+            background:linear-gradient(135deg,#00c9ff 0%,#007aff 50%,#7000ff 100%);
+            color:#fff; border:none; border-radius:12px;
+            font-weight:bold; font-size:11px; letter-spacing:3px; text-transform:uppercase;
+            cursor:pointer; margin-top:6px; position:relative; overflow:hidden;
+            box-shadow:0 8px 22px rgba(0,122,255,0.3);
+            transition:transform 0.15s;
+        }
+        .btn-login::after {
+            content:''; position:absolute; top:-50%; left:-60%;
+            width:40%; height:200%; background:rgba(255,255,255,0.18);
+            transform:skewX(-20deg); animation:btnShine 3s ease-in-out infinite;
+        }
+        @keyframes btnShine {
+            0%,65%,100% { left:-60%; opacity:0; }
+            35%          { left:130%; opacity:1; }
+        }
+        .btn-login:active { transform:scale(0.97); }
+        #loginError {
+            margin-top:12px; text-align:center; font-size:12px;
+            font-weight:700; color:#ff4466; display:none;
+        }
+        @keyframes errShake {
+            0%,100% { transform:translateX(0); }
+            20%,60%  { transform:translateX(-5px); }
+            40%,80%  { transform:translateX(5px); }
+        }
+        .login-footer {
+            margin-top:22px; text-align:center; font-size:8px;
+            color:rgba(255,255,255,0.15); letter-spacing:2px; text-transform:uppercase;
+        }
+        .live-dot {
+            display:inline-block; width:6px; height:6px; border-radius:50%;
+            background:#00ff96; box-shadow:0 0 6px #00ff96;
+            animation:dotBlink 1.5s ease-in-out infinite;
+            vertical-align:middle; margin-right:4px;
+        }
+        @keyframes dotBlink { 0%,100%{opacity:1} 50%{opacity:0.25} }
+
+        /* ═══ ADMIN UI ═══ */
+        .container {
+            max-width: 1000px; margin: 0 auto; display: none;
+            animation: fadeSlideUp 0.5s cubic-bezier(0.22,1,0.36,1) both;
+        }
+        @keyframes fadeSlideUp {
+            from { opacity:0; transform: translate3d(0,24px,0); }
+            to   { opacity:1; transform: translate3d(0,0,0); }
         }
 
-        .container { max-width: 1000px; margin: 0 auto; display: none; }
+        /* ── ADMIN HEADER ── */
+        .admin-header {
+            position: relative; overflow: hidden;
+            background: rgba(6,8,22,0.97);
+            border: 1px solid rgba(0,242,255,0.2);
+            border-radius: 20px; padding: 24px 28px 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.6), 0 0 0 1px rgba(0,242,255,0.05);
+        }
+        .admin-header::before {
+            content:''; position:absolute; top:0; left:0;
+            width:100%; height:2px;
+            background:linear-gradient(90deg,transparent,#00f2ff,#7000ff,transparent);
+            animation:scanX 3s linear infinite; will-change:transform;
+        }
+        .admin-header::after {
+            content:''; position:absolute; inset:0;
+            background: radial-gradient(ellipse at top left, rgba(0,242,255,0.05) 0%, transparent 55%),
+                        radial-gradient(ellipse at bottom right, rgba(112,0,255,0.05) 0%, transparent 55%);
+            pointer-events:none;
+        }
+        .header-inner {
+            position:relative; z-index:1;
+            display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:14px;
+        }
+        .header-brand { display:flex; align-items:center; gap:14px; }
+        .header-icon {
+            width:48px; height:48px; border-radius:14px;
+            background:linear-gradient(135deg,rgba(0,242,255,0.15),rgba(112,0,255,0.15));
+            border:1px solid rgba(0,242,255,0.3);
+            display:flex; align-items:center; justify-content:center; font-size:22px;
+            animation: avatarGlow 2.5s ease-in-out infinite;
+        }
+        .header-texts h1 {
+            font-size:18px; font-weight:900; color:#fff; margin:0;
+            letter-spacing:4px; text-transform:uppercase;
+            text-shadow:0 0 20px rgba(0,242,255,0.3);
+            text-align:left;
+        }
+        .header-texts h1 span { color:#00f2ff; }
+        .header-texts .sub {
+            font-size:10px; color:rgba(255,255,255,0.3);
+            letter-spacing:2px; margin-top:2px;
+        }
+        .header-stats { display:flex; gap:12px; flex-wrap:wrap; }
+        .stat-pill {
+            background:rgba(0,242,255,0.06); border:1px solid rgba(0,242,255,0.15);
+            border-radius:10px; padding:8px 14px; text-align:center;
+            position:relative; overflow:hidden;
+            transition: border-color 0.3s, background 0.3s;
+        }
+        .stat-pill:hover { background:rgba(0,242,255,0.1); border-color:rgba(0,242,255,0.35); }
+        .stat-pill .val {
+            font-size:20px; font-weight:900; color:#00f2ff;
+            font-family:monospace; display:block; line-height:1;
+            text-shadow:0 0 12px rgba(0,242,255,0.5);
+        }
+        .stat-pill .lbl { font-size:8px; color:rgba(255,255,255,0.35); letter-spacing:1.5px; text-transform:uppercase; margin-top:3px; display:block; }
+        .header-live {
+            display:flex; align-items:center; gap:6px;
+            font-size:9px; color:rgba(0,255,150,0.7); letter-spacing:2px; text-transform:uppercase;
+        }
+
+        /* ── GLASS CARD ── */
         .glass-card {
-            background: var(--card-bg); backdrop-filter: blur(15px);
-            border: 1px solid var(--border); border-radius: var(--round);
-            padding: 20px; box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5); margin-bottom: 25px;
+            position:relative; overflow:hidden;
+            background: rgba(6,8,22,0.95);
+            border:1px solid rgba(0,242,255,0.15);
+            border-radius:20px; padding:24px;
+            box-shadow:0 15px 35px rgba(0,0,0,0.5), 0 0 0 1px rgba(0,242,255,0.04);
+            margin-bottom:20px;
+            animation: fadeSlideUp 0.5s cubic-bezier(0.22,1,0.36,1) both;
         }
-        h1 { text-align: center; font-size: 22px; color: var(--primary); letter-spacing: 4px; text-transform: uppercase; }
-        h2 { font-size: 15px; color: #ff0050; border-left: 4px solid #ff0050; padding-left: 10px; margin-bottom: 15px; }
+        .glass-card::before {
+            content:''; position:absolute; top:0; left:0; width:100%; height:1px;
+            background:linear-gradient(90deg,transparent,rgba(0,242,255,0.4),transparent);
+        }
+        h2 {
+            font-size:13px; color:#ff0050; padding-left:12px; margin-bottom:16px;
+            border-left:3px solid #ff0050; letter-spacing:2px; text-transform:uppercase;
+            display:flex; align-items:center; gap:8px;
+        }
 
+        /* ── CONTROL PANEL ── */
         .control-panel {
-            display: flex; gap: 10px; justify-content: center; flex-wrap: wrap;
-            background: rgba(255, 255, 255, 0.05); padding: 15px;
-            border-radius: 15px; margin-bottom: 20px; border: 1px solid rgba(255,255,255,0.1);
+            display:flex; gap:10px; align-items:center; flex-wrap:wrap;
+            background:rgba(0,242,255,0.03); padding:16px;
+            border-radius:14px; margin-bottom:18px;
+            border:1px solid rgba(0,242,255,0.1);
         }
-        input, select { background: #000; border: 1px solid var(--border); color: #fff; padding: 10px; border-radius: 10px; outline: none; }
+        .ctrl-label {
+            font-size:9px; color:rgba(0,242,255,0.5); letter-spacing:2px;
+            text-transform:uppercase; margin-right:2px;
+        }
+        input[type=number], select {
+            background:rgba(0,0,0,0.6); border:1px solid rgba(0,242,255,0.2);
+            color:#fff; padding:9px 12px; border-radius:10px; outline:none;
+            font-size:13px; transition:border-color 0.3s, box-shadow 0.3s;
+        }
+        input[type=number]:focus, select:focus {
+            border-color:#00f2ff; box-shadow:0 0 0 3px rgba(0,242,255,0.1);
+        }
+        select option { background:#0a0a1a; }
+
         .btn-gen {
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            color: #fff; border: none; padding: 10px 20px;
-            border-radius: 10px; font-weight: bold; cursor: pointer; transition: 0.3s;
+            background:linear-gradient(135deg,#00f2ff,#7000ff);
+            color:#fff; border:none; padding:10px 20px;
+            border-radius:10px; font-weight:700; cursor:pointer;
+            font-size:11px; letter-spacing:2px; text-transform:uppercase;
+            position:relative; overflow:hidden;
+            box-shadow:0 6px 18px rgba(0,242,255,0.2);
+            transition:transform 0.15s, box-shadow 0.3s;
         }
+        .btn-gen::after {
+            content:''; position:absolute; top:-50%; left:-60%;
+            width:40%; height:200%; background:rgba(255,255,255,0.2);
+            transform:skewX(-20deg); animation:btnShine 3s ease-in-out infinite;
+        }
+        .btn-gen:active { transform:scale(0.96); }
 
-        .table-container { overflow-x: auto; border-radius: 15px; }
-        table { width: 100%; border-collapse: separate; border-spacing: 0 8px; white-space: nowrap; }
-        th { padding: 10px; font-size: 11px; opacity: 0.5; text-align: left; text-transform: uppercase; }
-        td { background: rgba(255, 255, 255, 0.04); padding: 12px; font-size: 13px; }
+        /* ── DELETE MULTI BTN ── */
+        .btn-del-multi {
+            background:rgba(255,0,80,0.1); color:#ff0050;
+            border:1px solid rgba(255,0,80,0.35); padding:9px 16px;
+            border-radius:10px; margin-bottom:14px; cursor:pointer;
+            font-weight:700; font-size:11px; letter-spacing:1px;
+            display:none; transition:all 0.2s;
+            animation: fadeSlideUp 0.3s ease both;
+        }
+        .btn-del-multi:hover { background:rgba(255,0,80,0.18); box-shadow:0 0 12px rgba(255,0,80,0.25); }
 
-        .badge { padding: 4px 8px; border-radius: 6px; font-size: 10px; font-weight: bold; border: 1px solid; }
-        .bg-active { background: #00ff9622; color: #00ff96; border-color: #00ff96; }
-        .bg-waiting { background: #ffffff11; color: #fff; border-color: #fff; }
-        .bg-expired { background: #ff005022; color: #ff0050; border-color: #ff0050; }
+        /* ── TABLE ── */
+        .table-container { overflow-x:auto; border-radius:14px; }
+        table { width:100%; border-collapse:separate; border-spacing:0 6px; white-space:nowrap; }
+        thead tr th {
+            padding:8px 12px; font-size:9px; letter-spacing:2px;
+            text-transform:uppercase; color:rgba(0,242,255,0.45);
+            text-align:left; font-weight:700; border-bottom:1px solid rgba(0,242,255,0.08);
+        }
+        tbody tr {
+            animation: rowIn 0.35s ease both;
+            transition: transform 0.2s;
+        }
+        tbody tr:hover { transform: translateX(3px); }
+        @keyframes rowIn {
+            from { opacity:0; transform:translateX(-10px); }
+            to   { opacity:1; transform:translateX(0); }
+        }
+        td {
+            background:rgba(255,255,255,0.03); padding:12px;
+            font-size:12px; border-top:1px solid rgba(255,255,255,0.04);
+            border-bottom:1px solid rgba(255,255,255,0.04);
+            transition: background 0.2s;
+        }
+        tbody tr:hover td { background:rgba(0,242,255,0.04); }
+        td:first-child { border-left:1px solid rgba(255,255,255,0.04); border-radius:10px 0 0 10px; }
+        td:last-child  { border-right:1px solid rgba(255,255,255,0.04); border-radius:0 10px 10px 0; }
 
-        .copy-btn { background: var(--primary); color: #000; border: none; padding: 4px 8px; border-radius: 6px; font-size: 10px; font-weight: bold; cursor: pointer; margin-left: 8px; }
-        .btn-plus { background: rgba(0, 242, 255, 0.1); border: 1px solid var(--primary); color: var(--primary); padding: 4px 8px; border-radius: 6px; font-size: 10px; font-weight: bold; cursor: pointer; }
-        .btn-del-multi { background: #ff0050; color: #fff; border: none; padding: 10px 15px; border-radius: 12px; margin-bottom: 10px; cursor: pointer; display: none; font-weight: bold; }
-        
-        .add-time-box { display: flex; gap: 4px; margin-top: 5px; }
-        .small-input { width: 50px; font-size: 10px; padding: 2px 5px; border-radius: 5px; background: #000; border: 1px solid var(--primary); color: #fff; }
+        /* ── BADGES ── */
+        .badge {
+            padding:4px 10px; border-radius:20px; font-size:9px;
+            font-weight:700; border:1px solid; letter-spacing:1px;
+            text-transform:uppercase;
+        }
+        .bg-active  { background:rgba(0,255,150,0.1); color:#00ff96; border-color:rgba(0,255,150,0.4); box-shadow:0 0 8px rgba(0,255,150,0.2); }
+        .bg-waiting { background:rgba(255,255,255,0.06); color:rgba(255,255,255,0.6); border-color:rgba(255,255,255,0.15); }
+        .bg-expired { background:rgba(255,0,80,0.1); color:#ff0050; border-color:rgba(255,0,80,0.35); }
+
+        /* ── COPY BTN ── */
+        .copy-btn {
+            background:rgba(0,242,255,0.1); color:#00f2ff;
+            border:1px solid rgba(0,242,255,0.25); padding:3px 9px;
+            border-radius:6px; font-size:9px; font-weight:700;
+            cursor:pointer; margin-left:8px; letter-spacing:1px;
+            transition:all 0.2s;
+        }
+        .copy-btn:hover { background:rgba(0,242,255,0.2); box-shadow:0 0 8px rgba(0,242,255,0.25); }
+
+        /* ── PLUS/MINUS BTNS ── */
+        .add-time-box { display:flex; gap:5px; margin-top:6px; align-items:center; }
+        .small-input {
+            width:54px; font-size:11px; padding:4px 7px; border-radius:7px;
+            background:rgba(0,0,0,0.6); border:1px solid rgba(0,242,255,0.2); color:#fff;
+        }
+        .btn-plus {
+            background:rgba(0,242,255,0.08); border:1px solid rgba(0,242,255,0.25);
+            color:#00f2ff; padding:4px 9px; border-radius:7px;
+            font-size:11px; font-weight:700; cursor:pointer;
+            transition:all 0.18s;
+        }
+        .btn-plus:hover { background:rgba(0,242,255,0.18); box-shadow:0 0 8px rgba(0,242,255,0.2); }
+
+        /* ── DELETE BTN ── */
+        .btn-del-single {
+            background:none; border:none; color:rgba(255,0,80,0.6);
+            cursor:pointer; font-size:20px; line-height:1;
+            transition:color 0.2s, transform 0.2s;
+            padding:2px 6px; border-radius:6px;
+        }
+        .btn-del-single:hover { color:#ff0050; transform:scale(1.2); background:rgba(255,0,80,0.08); }
+
+        /* ── TOAST NOTIFICATION ── */
+        #toast {
+            position:fixed; bottom:24px; right:24px; z-index:99999;
+            background:rgba(6,8,22,0.97); border:1px solid rgba(0,242,255,0.3);
+            border-radius:12px; padding:12px 20px;
+            font-size:13px; font-weight:600; color:#00f2ff;
+            box-shadow:0 10px 30px rgba(0,0,0,0.5), 0 0 20px rgba(0,242,255,0.1);
+            transform:translate3d(0,80px,0); opacity:0;
+            transition:transform 0.35s cubic-bezier(0.22,1,0.36,1), opacity 0.35s;
+            pointer-events:none;
+        }
+        #toast.show { transform:translate3d(0,0,0); opacity:1; }
+
+        /* ── REFRESH BTN ── */
+        .btn-refresh {
+            background:rgba(0,242,255,0.07); border:1px solid rgba(0,242,255,0.2);
+            color:#00f2ff; padding:8px 14px; border-radius:10px;
+            font-size:11px; font-weight:700; cursor:pointer; letter-spacing:1px;
+            transition:all 0.2s; display:flex; align-items:center; gap:6px;
+        }
+        .btn-refresh:hover { background:rgba(0,242,255,0.14); }
+        .btn-refresh.spinning svg { animation:spin 0.8s linear infinite; }
+        @keyframes spin { to { transform:rotate(360deg); } }
+
+        /* ── SCROLLBAR ── */
+        ::-webkit-scrollbar { width:5px; height:5px; }
+        ::-webkit-scrollbar-track { background:transparent; }
+        ::-webkit-scrollbar-thumb { background:rgba(0,242,255,0.2); border-radius:10px; }
+        ::-webkit-scrollbar-thumb:hover { background:rgba(0,242,255,0.4); }
     </style>
 </head>
 <body onload="checkAccess()">
 
     <div id="lockScreen">
-        <h1>TRUY CẬP HỆ THỐNG</h1>
-        <input type="password" id="passInput" class="lock-input" placeholder="Mật mã bí mật...">
-        <button onclick="verifyPass()" class="btn-gen" style="margin-top: 15px;">XÁC MINH</button>
+        <div class="login-card">
+            <div class="lc-corner lc-tl"></div>
+            <div class="lc-corner lc-tr"></div>
+            <div class="lc-corner lc-bl"></div>
+            <div class="lc-corner lc-br"></div>
+            <div class="login-avatar">👑</div>
+            <div class="login-eyebrow">SECURE ADMIN ACCESS</div>
+            <div class="login-title">VANHIEP <span>MOD</span></div>
+            <div class="login-sub">Hệ thống quản trị · Ultimate PRO</div>
+            <div class="input-group">
+                <label class="input-label">Tên đăng nhập</label>
+                <div class="input-wrap">
+                    <span class="input-icon">👤</span>
+                    <input type="text" id="userInput" class="lk-input" placeholder="Username" autocomplete="off">
+           </div>
+            </div>
+            <div class="input-group">
+                <label class="input-label">Mật khẩu</label>
+                <div class="input-wrap">
+                    <span class="input-icon">🔒</span>
+                    <input type="password" id="passInput" class="lk-input" placeholder="Password"
+                        onkeydown="if(event.key==='Enter') verifyPass()">
+                </div>
+            </div>
+            <button onclick="verifyPass()" class="btn-login">ĐĂNG NHẬP HỆ THỐNG</button>
+            <div id="loginError">⚠ Tên đăng nhập hoặc mật khẩu không đúng!</div>
+            <div class="login-footer"><span class="live-dot"></span>Server Online · VanHiep Mod v9.0</div>
+        </div>
     </div>
 
     <div id="adminContent" class="container">
-        <div class="glass-card">
-            <h1>VANHIEP MOD MENU</h1>
-            <div class="control-panel">
-                <input type="number" id="genValue" value="30" style="width: 60px;">
-                <select id="genType">
-                    <option value="mins">Phút</option>
-                    <option value="days">Ngày</option>
-                </select>
-                <button class="btn-gen" onclick="generateKey()">+ TẠO MÃ</button>
+
+        <!-- HEADER -->
+        <div class="admin-header">
+            <div class="header-inner">
+                <div class="header-brand">
+                    <div class="header-icon">⚡</div>
+                    <div class="header-texts">
+                        <h1>VANHIEP <span>MOD</span></h1>
+                        <div class="sub">ULTIMATE ADMIN PANEL · v9.0</div>
+                    </div>
+                </div>
+                <div class="header-stats">
+                    <div class="stat-pill">
+                        <span class="val" id="statTotal">0</span>
+                        <span class="lbl">Tổng Key</span>
+                    </div>
+                    <div class="stat-pill">
+                        <span class="val" id="statActive" style="color:#00ff96;text-shadow:0 0 12px rgba(0,255,150,0.5)">0</span>
+                        <span class="lbl">Hoạt động</span>
+                    </div>
+                    <div class="stat-pill">
+                        <span class="val" id="statExp" style="color:#ff0050;text-shadow:0 0 12px rgba(255,0,80,0.5)">0</span>
+                        <span class="lbl">Hết hạn</span>
+                    </div>
+                </div>
+                <div class="header-live">
+                    <span class="live-dot"></span> LIVE
+                    <button class="btn-refresh" id="btnRefresh" onclick="manualRefresh()">
+                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>
+                        REFRESH
+                    </button>
+                </div>
             </div>
-            <button id="btnDelMulti" class="btn-del-multi" onclick="deleteSelected()">🗑️ XÓA ĐÃ CHỌN (<span id="countSelect">0</span>)</button>
+        </div>
+
+        <!-- MAIN CARD -->
+        <div class="glass-card">
+            <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-bottom:18px;">
+                <div style="font-size:13px;font-weight:700;color:#00f2ff;letter-spacing:2px;text-transform:uppercase;">
+                    🗝️ &nbsp;QUẢN LÝ KEY
+                </div>
+                <div class="control-panel" style="margin:0;padding:10px 14px;">
+                    <span class="ctrl-label">Thời hạn</span>
+                    <input type="number" id="genValue" value="30" style="width:60px;">
+                    <select id="genType">
+                        <option value="mins">Phút</option>
+                        <option value="days">Ngày</option>
+                    </select>
+                    <button class="btn-gen" onclick="generateKey()">＋ TẠO KEY MỚI</button>
+                </div>
+            </div>
+
+            <button id="btnDelMulti" class="btn-del-multi" onclick="deleteSelected()">
+                🗑️ XÓA ĐÃ CHỌN (<span id="countSelect">0</span>)
+            </button>
+
             <div class="table-container">
                 <table>
                     <thead>
@@ -101,8 +507,10 @@
                 </table>
             </div>
         </div>
-        <div class="glass-card" id="expiredSection" style="display: none;">
-            <h2>DỰ TRỮ / HẾT HẠN / BỊ KHÓA</h2>
+
+        <!-- EXPIRED SECTION -->
+        <div class="glass-card" id="expiredSection" style="display:none;">
+            <h2>⛔ DỰ TRỮ / HẾT HẠN / BỊ KHÓA</h2>
             <div class="table-container">
                 <table>
                     <tbody id="expiredKeyData"></tbody>
@@ -111,33 +519,48 @@
         </div>
     </div>
 
-<script>
-    // ✅ THAY LINK SERVEO MỚI CỦA ÔNG VÀO ĐÂY
-    const API_URL = "https://severvps.onrender.com"; 
-    const SECRET_PASSWORD = "vanhiep212";
+    <!-- TOAST -->
+    <div id="toast"></div>
 
-    // Hàm kiểm tra quyền truy cập khi load trang
+<script>
+    const API_URL = "https://severvps.onrender.com";
+    const ADMIN_USER = "BuiVanHiep";
+    const SECRET_PASSWORD = "hzetnz212";
+
     function checkAccess() {
         if (sessionStorage.getItem('isVHP') === 'true') {
             document.getElementById('lockScreen').style.display = 'none';
             document.getElementById('adminContent').style.display = 'block';
             loadKeys();
-            setInterval(loadKeys, 10000); // Tự động load mỗi 10s
+            setInterval(loadKeys, 10000);
         }
     }
 
-    // Hàm xác minh mật khẩu
     function verifyPass() {
-        const input = document.getElementById('passInput').value;
-        if (input === SECRET_PASSWORD) {
-            sessionStorage.setItem('isVHP', 'true');
-            location.reload();
-        } else { 
-            alert("Mật khẩu sai! Vui lòng nhập đúng mật khẩu của VanHiep."); 
+        const user  = document.getElementById('userInput').value.trim();
+        const pass  = document.getElementById('passInput').value;
+        const errEl = document.getElementById('loginError');
+        if (user === ADMIN_USER && pass === SECRET_PASSWORD) {
+            errEl.style.display = 'none';
+            const card = document.querySelector('.login-card');
+            card.style.transition = 'opacity 0.4s ease, transform 0.4s ease';
+            card.style.opacity = '0';
+            card.style.transform = 'translate3d(0,-18px,0) scale(1.04)';
+            setTimeout(() => { sessionStorage.setItem('isVHP','true'); location.reload(); }, 420);
+        } else {
+            errEl.style.display = 'none';
+            void errEl.offsetWidth;
+            errEl.style.display = 'block';
+            errEl.style.animation = 'none';
+            void errEl.offsetWidth;
+            errEl.style.animation = 'errShake 0.4s ease';
+            const passEl = document.getElementById('passInput');
+            passEl.style.borderColor = '#ff4466';
+            setTimeout(() => { passEl.style.borderColor = ''; }, 900);
         }
     }
 
-    async function loadKeys() {
+    async function loadKeys(showToast) {
         const tbody = document.getElementById('keyData');
         const expiredTbody = document.getElementById('expiredKeyData');
         try {
@@ -145,43 +568,91 @@
             const keys = await res.json();
             tbody.innerHTML = ''; expiredTbody.innerHTML = '';
             const now = Date.now();
-            let hasExp = false;
-            
+            let hasExp = false, cntTotal = 0, cntActive = 0, cntExp = 0;
+
             for (let k in keys) {
+                cntTotal++;
                 const isExp = now > keys[k].expiry;
                 const isBanned = keys[k].banned === true;
                 const date = new Date(keys[k].expiry).toLocaleString('vi-VN');
-                
-                let badge = isBanned ? '<span class="badge" style="color:#ff0050; border-color:#ff0050;">ĐÃ KHÓA</span>' :
-                            (isExp ? '<span class="badge bg-expired">HẾT HẠN</span>' :
-                            (keys[k].hwid ? '<span class="badge bg-active">ON</span>' : '<span class="badge bg-waiting">CHỜ</span>'));
+                if (!isExp && !isBanned && keys[k].hwid) cntActive++;
+                if (isExp || isBanned) cntExp++;
+
+                let badge = isBanned
+                    ? '<span class="badge" style="color:#ff0050;border-color:rgba(255,0,80,0.4);background:rgba(255,0,80,0.1);">🔒 KHÓA</span>'
+                    : (isExp
+                        ? '<span class="badge bg-expired">⛔ HẾT HẠN</span>'
+                        : (keys[k].hwid
+                            ? '<span class="badge bg-active">● ON</span>'
+                            : '<span class="badge bg-waiting">○ CHỜ</span>'));
 
                 const row = `<tr>
                     <td><input type="checkbox" class="key-cb" value="${k}" onclick="updateCount()"></td>
-                    <td style="font-weight:bold; color:var(--primary)">${k} <button class="copy-btn" onclick="copyToClipboard('${k}')">COPY</button></td>
+                    <td style="font-weight:700;color:#00f2ff;font-family:monospace;font-size:12px;">
+                        ${k}
+                        <button class="copy-btn" onclick="copyToClipboard('${k}')">COPY</button>
+                    </td>
                     <td>${badge}</td>
-                    <td style="font-family:monospace; font-size:11px;">${keys[k].hwid || 'N/A'}</td>
+                    <td style="font-family:monospace;font-size:10px;color:rgba(255,255,255,0.45);">${keys[k].hwid ? keys[k].hwid.slice(0,20)+'…' : '—'}</td>
                     <td>
-                        <div style="font-size:11px;">${date}</div>
+                        <div style="font-size:11px;color:rgba(255,255,255,0.6);margin-bottom:4px;">${date}</div>
                         <div class="add-time-box">
                             <input type="number" id="plusVal_${k}" class="small-input" placeholder="Phút">
-                            <button class="btn-plus" onclick="addTime('${k}', 1)">+</button>
-                            <button class="btn-plus" onclick="addTime('${k}', -1)">-</button>
-                            <button class="btn-plus" style="color:#ff0050; border-color:#ff0050;" onclick="toggleBan('${k}', ${!isBanned})">${isBanned ? 'MỞ' : 'KHÓA'}</button>
+                            <button class="btn-plus" onclick="addTime('${k}', 1)" title="Thêm thời gian">+</button>
+                            <button class="btn-plus" onclick="addTime('${k}', -1)" title="Bớt thời gian">−</button>
+                            <button class="btn-plus" style="color:${isBanned?'#00ff96':'#ff0050'};border-color:${isBanned?'rgba(0,255,150,0.4)':'rgba(255,0,80,0.4)'};"
+                                onclick="toggleBan('${k}', ${!isBanned})">${isBanned ? '🔓 MỞ' : '🔒 KHÓA'}</button>
                         </div>
                     </td>
-                    <td><button onclick="deleteSingle('${k}')" style="background:none; border:none; color:#ff0050; cursor:pointer; font-size:18px;">×</button></td>
+                    <td>
+                        <button class="btn-del-single" onclick="deleteSingle('${k}')" title="Xóa key">×</button>
+                    </td>
                 </tr>`;
 
-                if (isExp || isBanned) {
-                    expiredTbody.innerHTML += row;
-                    hasExp = true;
-                } else {
-                    tbody.innerHTML += row;
-                }
+                if (isExp || isBanned) { expiredTbody.innerHTML += row; hasExp = true; }
+                else { tbody.innerHTML += row; }
             }
+
+            // Cập nhật stats
+            animateCount('statTotal', cntTotal);
+            animateCount('statActive', cntActive);
+            animateCount('statExp', cntExp);
+
             document.getElementById('expiredSection').style.display = hasExp ? 'block' : 'none';
-        } catch(e) { console.log("Server Offline"); }
+            if (showToast) showToastMsg('✓ Đã làm mới dữ liệu');
+        } catch(e) {
+            console.log("Server Offline");
+            showToastMsg('⚠ Không kết nối được server', '#ff4466');
+        }
+    }
+
+    function animateCount(id, target) {
+        const el = document.getElementById(id);
+        if (!el) return;
+        let cur = parseInt(el.textContent) || 0;
+        const step = target > cur ? 1 : -1;
+        if (cur === target) return;
+        const t = setInterval(() => {
+            cur += step;
+            el.textContent = cur;
+            if (cur === target) clearInterval(t);
+        }, 40);
+    }
+
+    function showToastMsg(msg, color) {
+        const t = document.getElementById('toast');
+        t.textContent = msg;
+        t.style.color = color || '#00f2ff';
+        t.classList.add('show');
+        setTimeout(() => t.classList.remove('show'), 2500);
+    }
+
+    function manualRefresh() {
+        const btn = document.getElementById('btnRefresh');
+        btn.classList.add('spinning');
+        loadKeys(true).finally(() => {
+            setTimeout(() => btn.classList.remove('spinning'), 600);
+        });
     }
 
     async function toggleBan(key, status) {
@@ -206,6 +677,7 @@
     async function deleteSingle(k) {
         if(confirm('Xóa Key này?')) {
             await fetch(`${API_URL}/admin/delete?key=${k}`);
+            showToastMsg('🗑️ Đã xóa key');
             loadKeys();
         }
     }
@@ -222,9 +694,9 @@
     }
 
     function copyToClipboard(text) {
-        navigator.clipboard.writeText(text);
-        alert('Đã copy: ' + text);
+        navigator.clipboard.writeText(text).then(() => {
+            showToastMsg('📋 Đã copy: ' + text.slice(0,16) + '…');
+        });
     }
 </script>
 </body>
-</html>
